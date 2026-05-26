@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/goit-js-hw-12/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Homework 11 - Image Search</title>
+    <title>Homework 12 - Image Search with Pagination</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap"
       rel="stylesheet"
@@ -12,7 +12,7 @@
     <script type="module" crossorigin src="/goit-js-hw-12/index.js"></script>
     <link rel="modulepreload" crossorigin href="/goit-js-hw-12/assets/vendor-DcHCnVjq.js">
     <link rel="stylesheet" crossorigin href="/goit-js-hw-12/assets/vendor-DumFYO8Z.css">
-    <link rel="stylesheet" crossorigin href="/goit-js-hw-12/assets/index-EN5ZNxEp.css">
+    <link rel="stylesheet" crossorigin href="/goit-js-hw-12/assets/index-BgXfa5o4.css">
   </head>
   <body>
     <header class="header">
@@ -37,9 +37,13 @@
       <button type="submit">Search</button>
     </form>
 
-    <span class="loader is-hidden"></span>
-
     <ul class="gallery"></ul>
+
+    <button type="button" id="load-more" class="load-more is-hidden">
+      Load more
+    </button>
+
+    <span class="loader is-hidden"></span>
 
   </body>
 </html>
