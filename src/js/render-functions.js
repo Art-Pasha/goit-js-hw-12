@@ -27,8 +27,8 @@ export function createGallery(images) {
     </li>`
     )
     .join('');
-
-galleryElement.insertAdjacentHTML('beforeend', markup);
+  
+  galleryElement.insertAdjacentHTML('beforeend', markup);
   lightbox.refresh();
 }
 
