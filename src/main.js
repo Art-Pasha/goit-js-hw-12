@@ -1,7 +1,7 @@
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
-import { getImagesByQuery } from './js/pixabay-api.js';
+import { getImagesByQuery, PER_PAGE } from './js/pixabay-api.js';
 import { 
   createGallery, 
   clearGallery, 
@@ -32,7 +32,6 @@ searchForm.addEventListener('submit', async event => {
     return;
   }
 
-  // Скидання стану для нової колекції
   query = inputQuery;
   page = 1;
 
@@ -53,8 +52,8 @@ searchForm.addEventListener('submit', async event => {
 
     createGallery(data.hits);
 
-    // Перевірка, чи не дійшли ми до кінця колекції вже на першій сторінці
-    if (page * 15 >= data.totalHits) {
+    // Використовуємо PER_PAGE замість жорстко прописаного 15
+    if (page * PER_PAGE >= data.totalHits) {
       iziToast.info({
         message: "We're sorry, but you've reached the end of search results.",
         position: 'topRight',
@@ -70,38 +69,32 @@ searchForm.addEventListener('submit', async event => {
     });
   } finally {
     hideLoader();
-    searchForm.reset();
+    // Видалено searchForm.reset() — текст запиту тепер залишається в інпуті для кращого UX
   }
 });
 
 // ОБРОБКА КЛІКУ НА КНОПКУ "LOAD MORE"
 loadMoreBtn.addEventListener('click', async () => {
   page += 1;
-  hideLoadMoreButton(); // Ховаємо кнопку на час завантаження
+  hideLoadMoreButton();
   showLoader();
 
   try {
     const data = await getImagesByQuery(query, page);
 
-    // 1. Спочатку рендеримо нові зображення в галерею
     createGallery(data.hits);
 
-    // 2. Реалізація плавного прокручування сторінки
     const galleryItem = document.querySelector('.gallery-item');
-    
     if (galleryItem) {
-      // Отримуємо висоту однієї картки за допомогою getBoundingClientRect
       const cardHeight = galleryItem.getBoundingClientRect().height;
-      
-      // Прокручуємо сторінку на дві висоти картки з параметром behavior: 'smooth'
       window.scrollBy({
         top: cardHeight * 2,
         behavior: 'smooth',
       });
     }
 
-    // 3. Перевірка на досягнення кінця колекції результатів
-    if (page * 15 >= data.totalHits) {
+    // Використовуємо PER_PAGE замість жорстко прописаного 15
+    if (page * PER_PAGE >= data.totalHits) {
       iziToast.info({
         message: "We're sorry, but you've reached the end of search results.",
         position: 'topRight',
